@@ -2,7 +2,9 @@ interface IVisibility {
   GONE: 'GONE';
   VISIBLE: 'VISIBLE';
 }
+
 declare const Visibility: IVisibility;
+
 type VisibilityType = IVisibility[keyof IVisibility];
 
 interface INotifications {
@@ -10,26 +12,23 @@ interface INotifications {
   WINDOW_DID_SHOW: 'WINDOW_DID_SHOW';
   WINDOW_DID_HIDE: 'WINDOW_DID_HIDE';
 }
+
 declare const Notifications: INotifications;
 
-/**
- * sendTokenToIntercom
- * @param token
- */
-export function sendTokenToIntercom(token: any): Promise<void>;
+type CustomAttributes = {
+  [key: string]: string;
+};
 
-/**
- * registerUnidentifiedUser
- * @returns {Promise<void>}
- */
-export function registerUnidentifiedUser(): Promise<void>;
+type CompanyAttributes = {
+  company_id?: string;
+  name?: string;
+  created_at?: number;
+  monthly_spend?: number;
+  plan?: string;
+  custom_attributes?: CustomAttributes;
+};
 
-/**
- * updateUser
- * @param { email?: string,user_id?: string, name?: string, phone?: string, language_override?: string, signed_up_at?: number, unsubscribed_from_emails?: boolean, companies?: Array<{company_id?: string, name?: string, created_at?: number, monthly_spend?: number, plan?: string, custom_attributes?: { [key: string]: string } }>, custom_attributes?: { [key: string]: string } } attributes
- * @returns {Promise<void>}
- */
-export function updateUser(attributes: {
+type UserAttributes = {
   email?: string;
   user_id?: string;
   name?: string;
@@ -37,135 +36,171 @@ export function updateUser(attributes: {
   language_override?: string;
   signed_up_at?: number;
   unsubscribed_from_emails?: boolean;
-  companies?: Array<{
-    company_id?: string;
-    name?: string;
-    created_at?: number;
-    monthly_spend?: number;
-    plan?: string;
-    custom_attributes?: { [key: string]: string };
-  }>;
-  custom_attributes?: { [key: string]: string };
-}): Promise<void>;
+  companies?: Array<CompanyAttributes>;
+  custom_attributes?: CustomAttributes;
+};
 
-/**
- * registerIdentifiedUser
- * @param {userId: string} | {email: string} options
- * @returns {Promise<void>}
- */
-export function registerIdentifiedUser(options: { userId: string } | { email: string }): Promise<void>;
+declare class IntercomClient {
+  /**
+   * sendTokenToIntercom
+   * @param token
+   */
+  sendTokenToIntercom(token: any): Promise<void>;
 
-/**
- * logout
- * @returns {Promise<void>}
- */
-export function logout(): Promise<void>;
+  /**
+   * registerUnidentifiedUser
+   * @returns {Promise<void>}
+   */
+  registerUnidentifiedUser(): Promise<void>;
 
-/**
- * Log an event
- * @param {string} eventName
- * @param {[key: string]: string | number | boolean } metadata
- */
-export function logEvent(eventName: string, metadata: { [key: string]: string | number | boolean }): Promise<void>;
+  /**
+   * updateUser
+   * @param attributes User attributes
+   * @returns {Promise<void>}
+   */
+  updateUser(attributes: UserAttributes): Promise<void>;
 
-/**
- * handlePushMessage
- * @returns {Promise<void>}
- */
-export function handlePushMessage(): Promise<void>;
+  /**
+   * registerIdentifiedUser
+   * @param {userId: string} | {email: string} options
+   * @returns {Promise<void>}
+   */
+  registerIdentifiedUser(options: { userId: string } | { email: string }): Promise<void>;
 
-/**
- * displayMessenger
- * @returns {Promise<void>}
- */
-export function displayMessenger(): Promise<void>;
+  /**
+   * logout
+   * @returns {Promise<void>}
+   */
+  logout(): Promise<void>;
 
-/**
- * hideMessenger
- * @returns {Promise<void>}
- */
-export function hideMessenger(): Promise<void>;
+  /**
+   * Log an event
+   * @param {string} eventName
+   * @param {[key: string]: string | number | boolean } metadata
+   */
+  logEvent(
+    eventName: string,
+    metadata: { [key: string]: string | number | boolean }
+  ): Promise<void>;
 
-/**
- * Show Message Composer
- */
-export function displayMessageComposer(): Promise<void>;
+  /**
+   * handlePushMessage
+   * @returns {Promise<void>}
+   */
+  handlePushMessage(): Promise<void>;
 
-/**
- * displayMessageComposerWithInitialMessage
- * @param {string} message
- * @returns {Promise<void>}
- */
-export function displayMessageComposerWithInitialMessage(message: string): Promise<void>;
+  /**
+   * displayMessenger
+   * @returns {Promise<void>}
+   */
+  displayMessenger(): Promise<void>;
 
-/**
- * displayConversationsList
- * @returns {Promise<void>}
- */
-export function displayConversationsList(): Promise<void>;
+  /**
+   * hideMessenger
+   * @returns {Promise<void>}
+   */
+  hideMessenger(): Promise<void>;
 
-/**
- * getUnreadConversationCount
- * @returns {Promise<void>}
- */
-export function getUnreadConversationCount(): Promise<number>;
+  /**
+   * Show Message Composer
+   */
+  displayMessageComposer(): Promise<void>;
 
-/**
- * displayHelpCenter
- * @returns {Promise<void>}
- */
-export function displayHelpCenter(): Promise<void>;
+  /**
+   * displayMessageComposerWithInitialMessage
+   * @param {string} message
+   * @returns {Promise<void>}
+   */
+  displayMessageComposerWithInitialMessage(message: string): Promise<void>;
 
-/**
- * setLauncherVisibility
- * @param {string} visibility
- * @returns {Promise<void>}
- */
-export function setLauncherVisibility(visibility: VisibilityType): Promise<void>;
+  /**
+   * displayConversationsList
+   * @returns {Promise<void>}
+   */
+  displayConversationsList(): Promise<void>;
 
-/**
- * setLauncherVisibility
- * @param {string} visibility
- * @returns {Promise<void>}
- */
-export function setInAppMessageVisibility(visibility: VisibilityType): Promise<void>;
+  /**
+   * getUnreadConversationCount
+   * @returns {Promise<void>}
+   */
+  getUnreadConversationCount(): Promise<number>;
 
-/**
- * setupAPN
- * @param {string} deviceToken
- * @returns {Promise<void>}
- */
-export function setupAPN(deviceToken: string): Promise<void>;
+  /**
+   * displayHelpCenter
+   * @returns {Promise<void>}
+   */
+  displayHelpCenter(): Promise<void>;
 
-/**
- * setUserHash
- * @param {string} userHash
- * @returns {Promise<void>}
- */
-export function setUserHash(userHash: string): Promise<void>;
+  /**
+   * setLauncherVisibility
+   * @param {string} visibility
+   * @returns {Promise<void>}
+   */
+  setLauncherVisibility(visibility: VisibilityType): Promise<void>;
 
-/**
- * setBottomPadding
- * @param {number} padding
- * @returns {Promise<void>}
- */
-export function setBottomPadding(padding: number): Promise<void>;
+  /**
+   * setLauncherVisibility
+   * @param {string} visibility
+   * @returns {Promise<void>}
+   */
+  setInAppMessageVisibility(visibility: VisibilityType): Promise<void>;
 
-/**
- * addEventListener
- * @param {string} type
- * @param {() => void} handler
- */
-export function addEventListener(type: string, handler: (event?: any) => void): void;
+  /**
+   * setupAPN
+   * @param {string} deviceToken
+   * @returns {Promise<void>}
+   */
+  setupAPN(deviceToken: string): Promise<void>;
 
-/**
- * removeEventListener
- * @param {string} type
- * @param {() => void} handler
- */
-export function removeEventListener(type: string, handler: (event?: any) => void): void;
+  /**
+   * setUserHash
+   * @param {string} userHash
+   * @returns {Promise<void>}
+   */
+  setUserHash(userHash: string): Promise<void>;
 
-/**
- * To enable iOS push notifications, simply call the following anywhere in your code:
- */
-export function registerForPush(): Promise<void>;
+  /**
+   * setBottomPadding
+   * @param {number} padding
+   * @returns {Promise<void>}
+   */
+  setBottomPadding(padding: number): Promise<void>;
+
+  /**
+   * addEventListener
+   * @param {string} type
+   * @param {() => void} handler
+   */
+  addEventListener(type: string, handler: (event?: any) => void): void;
+
+  /**
+   * removeEventListener
+   * @param {string} type
+   * @param {() => void} handler
+   */
+  removeEventListener(type: string, handler: (event?: any) => void): void;
+
+  /**
+   * To enable iOS push notifications, simply call the following anywhere in your code:
+   */
+  registerForPush(): Promise<void>;
+
+  /**
+   * displayCarousel
+   * @param {string} carouselId
+   * @returns {Promise<void>}
+   */
+  displayCarousel(carouselId: string): Promise<void>;
+
+  /**
+   * displayArticle
+   * @param {string} articleId
+   * @returns {Promise<void>}
+   */
+  displayArticle(articleId: string): Promise<void>;
+}
+
+declare const Intercom: IntercomClient;
+
+export default Intercom;
+export { Notifications, Visibility };

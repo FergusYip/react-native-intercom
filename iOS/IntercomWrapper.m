@@ -267,4 +267,32 @@ RCT_EXPORT_METHOD(setBottomPadding:(CGFloat)padding resolver:(RCTPromiseResolveB
     resolve([NSNull null]);
 };
 
+// Available as NativeModules.IntercomWrapper.displayCarousel
+RCT_EXPORT_METHOD(displayCarousel :(NSString*)carouselId :(RCTPromiseResolveBlock)resolve :(RCTPromiseRejectBlock)reject) {
+    NSLog(@"displayCarousel");
+
+    UIViewController *controller = RCTPresentedViewController();
+    [RCTUtilsUIOverride setPresentedViewController:controller];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [Intercom presentCarousel:carouselId];
+    });
+
+    resolve([NSNull null]);
+}
+
+// Available as NativeModules.IntercomWrapper.displayArticle
+RCT_EXPORT_METHOD(displayArticle :(NSString*)articleId :(RCTPromiseResolveBlock)resolve :(RCTPromiseRejectBlock)reject) {
+    NSLog(@"displayArticle");
+
+    UIViewController *controller = RCTPresentedViewController();
+    [RCTUtilsUIOverride setPresentedViewController:controller];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [Intercom presentArticle:articleId];
+    });
+
+    resolve([NSNull null]);
+}
+
 @end

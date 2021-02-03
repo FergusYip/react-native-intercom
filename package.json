@@ -1,14 +1,14 @@
 {
-  "name": "react-native-intercom",
-  "version": "17.0.0",
-  "description": "A React Native client for Intercom.io",
+  "name": "intercom-react-native",
+  "version": "18.0.0",
+  "description": "Intercom for React Native, for integrating Intercom into your React Native application.",
   "main": "./lib/IntercomClient.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tinycreative/react-native-intercom.git"
+    "url": "git+https://github.com/for-the-makers/intercom-react-native.git"
   },
   "author": "Asa Miller",
   "contributors": [
@@ -25,10 +25,16 @@
       "email": "browniefed@gmail.com"
     }
   ],
+  "keywords": [
+    "react-native",
+    "intercom",
+    "ios",
+    "android"
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tinycreative/react-native-intercom/issues"
+    "url": "https://github.com/for-the-makers/intercom-react-native/issues"
   },
-  "homepage": "https://github.com/tinycreative/react-native-intercom",
+  "homepage": "https://github.com/for-the-makers/intercom-react-native",
   "dependencies": {}
 }
